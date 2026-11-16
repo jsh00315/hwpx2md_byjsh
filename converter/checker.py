@@ -304,12 +304,14 @@ def run_checks(doc, w_clean, annotated, clean_md, marked_md, hwp2md_text, image_
     removed = collections.Counter()
     for ch, n in stats["removed_chars"].items():
         removed[ch] += n
+    exp = exp + getattr(doc, "num_chars", collections.Counter())   # 한글이 번호 기능으로 그린 번호 글자(우리가 넣음)
     exp = exp - removed                      # 목록 기호는 규칙상 지운 글자(생성 기록)
     missing = exp - got
     extra = got - exp
     if not missing and not extra:
         rows.append(row("C1", "글자 회계", PASS, {"XML글자": sum(exp.values()), "md글자": sum(got.values()), "차이": 0,
-                                              "지운목록기호": dict(removed)}))
+                                              "지운목록기호": dict(removed),
+                                              "넣은번호": dict(getattr(doc, "num_labels", {})), "넣은번호글자수": sum(getattr(doc, "num_chars", {}).values())}))
     else:
         rows.append(row("C1", "글자 회계", FAIL, {"XML글자": sum(exp.values()), "md글자": sum(got.values()),
                                               "빠진글자": dict(list(missing.items())[:20]),

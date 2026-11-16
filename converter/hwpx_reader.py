@@ -15,6 +15,33 @@ T = "{%s}t" % HP
 
 
 # ---------------------------------------------------------------- IR 클래스
+_HANGUL = "가나다라마바사아자차카타파하"
+_CIRCLED_HANGUL = "㉮㉯㉰㉱㉲㉳㉴㉵㉶㉷㉸㉹㉺㉻"
+_JAMO = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ"
+_ROMAN = ((1000, "M"), (900, "CM"), (500, "D"), (400, "CD"), (100, "C"), (90, "XC"), (50, "L"),
+          (40, "XL"), (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I"))
+
+
+def format_number(n, fmt):
+    """번호 n 을 번호 형식(hwpx numFormat)대로 글자로 바꾼다. 범위를 벗어나거나 모르는 형식이면 숫자 그대로."""
+    if fmt == "CIRCLED_DIGIT" and 1 <= n <= 20:
+        return chr(0x2460 + n - 1)
+    if fmt in ("ROMAN_CAPITAL", "ROMAN_SMALL") and 1 <= n <= 3999:
+        out, m = "", n
+        for v, sym in _ROMAN:
+            while m >= v:
+                out, m = out + sym, m - v
+        return out if fmt == "ROMAN_CAPITAL" else out.lower()
+    if fmt == "LATIN_CAPITAL" and 1 <= n <= 26:
+        return chr(64 + n)
+    if fmt == "LATIN_SMALL" and 1 <= n <= 26:
+        return chr(96 + n)
+    for name, table in (("HANGUL_SYLLABLE", _HANGUL), ("CIRCLED_HANGUL_SYLLABLE", _CIRCLED_HANGUL), ("HANGUL_JAMO", _JAMO)):
+        if fmt == name and 1 <= n <= len(table):
+            return table[n - 1]
+    return str(n)
+
+
 class Para:
     def __init__(self, ctx, ppr, style, cont=False):
         self.ctx, self.ppr, self.style, self.cont = ctx, ppr, style, cont
@@ -115,6 +142,10 @@ class HwpxDoc:
     def _load_header(self):
         """header.xml에서 문단 모양(개요 수준, 왼쪽 여백)과 스타일 이름을 읽는다."""
         self.para_pr, self.styles = {}, {}
+        self.numberings, self.bullets = {}, {}   # 문단 번호 정의 {id: {수준: (형식문자열, 번호형식, 시작값)}}, 글머리표 {id: 글자}
+        self.num_counter = {}                    # {번호 정의 id: [수준별 현재 번호]}  (문서 순서대로 올라간다)
+        self.num_labels = collections.Counter()   # 넣은 번호 개수(종류별)
+        self.num_chars = collections.Counter()    # 넣은 번호 글자(공백 제외). 점검 C1 이 '원본에 없는 글자'로 오해하지 않게 기록한다
         if "Contents/header.xml" not in self.z.namelist():
             return
         root = ET.fromstring(self.z.read("Contents/header.xml"))
@@ -122,16 +153,62 @@ class HwpxDoc:
             uri, name = split_tag(el.tag)
             if name == "paraPr":
                 heading = ("NONE", 0)
+                ref = None
                 left = None
                 for sub in el.iter():
                     sn = split_tag(sub.tag)[1]
                     if sn == "heading":
                         heading = (sub.get("type"), int(sub.get("level", "0")))
+                        ref = sub.get("idRef")
                     elif sn == "left" and left is None:
                         left = int(sub.get("value", "0"))
-                self.para_pr[el.get("id")] = {"heading": heading, "left": left or 0}
+                self.para_pr[el.get("id")] = {"heading": heading, "left": left or 0, "ref": ref}
             elif name == "style":
                 self.styles[el.get("id")] = el.get("name", "")
+            elif name == "numbering":
+                levels = {}
+                for ph in el:
+                    if split_tag(ph.tag)[1] == "paraHead":
+                        levels[int(ph.get("level", "1"))] = (
+                            "".join(ph.itertext()), ph.get("numFormat", "DIGIT"), int(ph.get("start", "1")))
+                self.numberings[el.get("id")] = levels
+            elif name == "bullet":
+                self.bullets[el.get("id")] = el.get("char", "")
+
+    # ---- 문단 번호(한글이 글자가 아니라 번호 기능으로 그려 주는 번호) ----------------
+    def number_label(self, ppr):
+        """paraPr 의 heading 이 NUMBER 이면 번호 글자("<그림 2-2>" 같은 것)를, BULLET 이면 글머리표 글자를 돌려준다.
+        같은 번호 정의(idRef)를 쓰는 문단끼리 수준별로 센다: 같은 수준이면 +1, 더 깊은 수준은 처음으로."""
+        pp = self.para_pr.get(ppr)
+        if not pp:
+            return ""
+        kind, depth = pp["heading"]
+        ref = pp.get("ref")
+        if kind == "BULLET":
+            ch = self.bullets.get(ref, "")
+            return ch if ch else ""
+        if kind != "NUMBER" or ref is None:
+            return ""
+        levels = self.numberings.get(ref)
+        if not levels:
+            return ""
+        level = depth + 1
+        cur = self.num_counter.setdefault(ref, [])
+        del cur[level:]
+        while len(cur) < level:
+            cur.append(None)
+        start = levels.get(level, ("", "DIGIT", 1))[2]
+        cur[depth] = start if cur[depth] is None else cur[depth] + 1
+        nums = [1 if n is None else n for n in cur]
+        template = levels.get(level, ("^%d." % level, "DIGIT", 1))[0]
+
+        def rep(m):
+            tok = m.group(1)
+            k = (len(nums) if tok in "nN" else int(tok)) - 1
+            n = nums[k] if 0 <= k < len(nums) else 1
+            fmt = levels.get(k + 1, ("", "DIGIT", 1))[1]
+            return format_number(n, fmt)
+        return re.sub(r"\^([1-7nN])", rep, template).strip()
 
     def nid(self, kind):
         self.seq[kind] += 1
@@ -211,6 +288,7 @@ class HwpxDoc:
         return out
 
     def read_p(self, p, ctx, out):
+        start = len(out)
         pb = _Builder(self, ctx, p.get("paraPrIDRef"), p.get("styleIDRef"), out)
         for ch in p:
             uri, name = split_tag(ch.tag)
@@ -220,6 +298,24 @@ class HwpxDoc:
             else:
                 self.inline(ch, pb)
         pb.finish()
+        self.add_number_label(p.get("paraPrIDRef"), out[start:])
+
+    def add_number_label(self, ppr, new_blocks):
+        """한글이 번호 기능으로 그려 주는 번호·글머리표를 문단 맨 앞 글자로 넣는다(글자가 있는 문단만)."""
+        paras = [b for b in new_blocks if isinstance(b, Para)]
+        if not paras or not any(it[0] == "text" and it[1].strip() for b in paras for it in b.items):
+            return
+        label = self.number_label(ppr)
+        if not label:
+            return
+        first = next((b for b in paras if b.items), None)
+        if first is None:
+            return
+        kind = self.para_pr[ppr]["heading"][0]
+        label = "".join("•" if 0xE000 <= ord(c) <= 0xF8FF else c for c in label)   # 글꼴 전용 글자(PUA)는 일반 글머리표로
+        first.items.insert(0, ("text", label + " "))
+        self.num_labels[kind] += 1
+        self.num_chars.update("".join(label.split()))
 
     # ---- run/ctrl 자식 처리 -------------------------------------------------------
     def inline(self, el, pb):
