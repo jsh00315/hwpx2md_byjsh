@@ -1,0 +1,17 @@
+# 내 컴퓨터 설정
+config_local.py
+
+# 입력·결과 (폴더만 남기고 내용은 올리지 않는다)
+input/*
+output/*
+!input/.gitkeep
+!output/.gitkeep
+bin/
+
+# 파이썬
+__pycache__/
+*.pyc
+
+# 원본·변환 문서
+*.hwp
+*.hwpx

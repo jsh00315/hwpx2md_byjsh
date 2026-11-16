@@ -1,0 +1,94 @@
+﻿ns_uri,요소,분류,처리방법,근거
+http://www.hancom.co.kr/hwpml/2011/section,sec,내용,섹션 루트: 자식 p를 문서 순서대로,S0 교차표: 모든 문서에 있음
+http://www.hancom.co.kr/hwpml/2011/paragraph,p,내용,문단/글자 묶음/글자: IR 문단과 글자,글자를 품은 기본 요소
+http://www.hancom.co.kr/hwpml/2011/paragraph,run,내용,문단/글자 묶음/글자: IR 문단과 글자,글자를 품은 기본 요소
+http://www.hancom.co.kr/hwpml/2011/paragraph,t,내용,문단/글자 묶음/글자: IR 문단과 글자,글자를 품은 기본 요소
+http://www.hancom.co.kr/hwpml/2011/paragraph,ctrl,내용,"제어 묶음: 자식(autoNum, newNum, footNote, fieldBegin, header 등)을 각각 처리",
+http://www.hancom.co.kr/hwpml/2011/paragraph,tbl,내용,표 구조: 표 노드와 칸 안 문단,
+http://www.hancom.co.kr/hwpml/2011/paragraph,tr,내용,표 구조: 표 노드와 칸 안 문단,
+http://www.hancom.co.kr/hwpml/2011/paragraph,tc,내용,표 구조: 표 노드와 칸 안 문단,
+http://www.hancom.co.kr/hwpml/2011/paragraph,subList,내용,표 구조: 표 노드와 칸 안 문단,
+http://www.hancom.co.kr/hwpml/2011/paragraph,cellAddr,내용,칸 주소와 병합 정보를 읽음(글자 없음),표 칸 위치
+http://www.hancom.co.kr/hwpml/2011/paragraph,cellSpan,내용,칸 주소와 병합 정보를 읽음(글자 없음),표 칸 위치
+http://www.hancom.co.kr/hwpml/2011/paragraph,caption,내용,표/그림 캡션 문단,
+http://www.hancom.co.kr/hwpml/2011/paragraph,equation,내용,수식 노드(script 글자를 변환),
+http://www.hancom.co.kr/hwpml/2011/paragraph,script,내용,수식 노드(script 글자를 변환),
+http://www.hancom.co.kr/hwpml/2011/paragraph,pic,내용,그림 노드(BinData 연결),
+http://www.hancom.co.kr/hwpml/2011/core,img,내용,그림 참조(binaryItemIDRef)를 읽음,
+http://www.hancom.co.kr/hwpml/2011/paragraph,footNote,내용,각주 노드,
+http://www.hancom.co.kr/hwpml/2011/paragraph,autoNum,내용,자동 번호/번호 새로 시작,
+http://www.hancom.co.kr/hwpml/2011/paragraph,newNum,내용,자동 번호/번호 새로 시작,
+http://www.hancom.co.kr/hwpml/2011/paragraph,tab,내용,t 안 공백/줄바꿈 문자,tail 글자가 이어짐
+http://www.hancom.co.kr/hwpml/2011/paragraph,lineBreak,내용,t 안 공백/줄바꿈 문자,tail 글자가 이어짐
+http://www.hancom.co.kr/hwpml/2011/paragraph,fwSpace,내용,t 안 공백/줄바꿈 문자,tail 글자가 이어짐
+http://www.hancom.co.kr/hwpml/2011/paragraph,nbSpace,내용,t 안 공백/줄바꿈 문자,tail 글자가 이어짐
+http://www.hancom.co.kr/hwpml/2011/paragraph,fieldBegin,내용,필드(하이퍼링크 등): 종류와 주소를 읽음,
+http://www.hancom.co.kr/hwpml/2011/paragraph,fieldEnd,내용,필드(하이퍼링크 등): 종류와 주소를 읽음,
+http://www.hancom.co.kr/hwpml/2011/paragraph,parameters,내용,필드(하이퍼링크 등): 종류와 주소를 읽음,
+http://www.hancom.co.kr/hwpml/2011/paragraph,stringParam,내용,필드(하이퍼링크 등): 종류와 주소를 읽음,
+http://www.hancom.co.kr/hwpml/2011/paragraph,header,내용,머리말/꼬리말: 본문에 넣지 않고 부록에 한 번 보존,글자를 품음
+http://www.hancom.co.kr/hwpml/2011/paragraph,container,내용,글상자/묶음: 안의 문단을 인용 블록으로,글자를 품음(공공데이터 문서)
+http://www.hancom.co.kr/hwpml/2011/paragraph,rect,내용,글상자/묶음: 안의 문단을 인용 블록으로,글자를 품음(공공데이터 문서)
+http://www.hancom.co.kr/hwpml/2011/paragraph,drawText,내용,글상자/묶음: 안의 문단을 인용 블록으로,글자를 품음(공공데이터 문서)
+http://www.hancom.co.kr/hwpml/2011/paragraph,line,미지원,미지원 표시를 남김,그리기 선; 처리 방법 없음
+http://www.hancom.co.kr/hwpml/2011/paragraph,shapeComment,설명문구,출력하지 않고 찌꺼기 문구 사전에 넣음,개체 설명 기본 문구
+http://www.hancom.co.kr/hwpml/2011/paragraph,lineseg,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,linesegarray,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,cellMargin,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,cellSz,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,outMargin,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,pos,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,sz,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,inMargin,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,offset,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,curSz,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,flip,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,orgSz,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,renderingInfo,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,rotationInfo,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,effects,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,imgClip,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,imgDim,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,imgRect,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,colPr,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,pageBorderFill,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,noteLine,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,noteSpacing,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,numbering,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,placement,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,pageHiding,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,endNotePr,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,footNotePr,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,grid,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,lineNumberShape,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,margin,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,pagePr,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,secPr,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,startNum,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,visibility,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,cellzone,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,cellzoneList,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,shadow,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,textMargin,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,lineShape,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,masterPage,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,pageNum,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,bookmark,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,titleMark,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/paragraph,integerParam,서식무시,출력하지 않음(글자가 있으면 C4 실패),화면 배치/설정 정보
+http://www.hancom.co.kr/hwpml/2011/core,rotMatrix,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,scaMatrix,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,transMatrix,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,pt0,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,pt1,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,pt2,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,pt3,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,fillBrush,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,winBrush,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,endPt,서식무시,출력하지 않음,도형 기하/채우기
+http://www.hancom.co.kr/hwpml/2011/core,startPt,서식무시,출력하지 않음,도형 기하/채우기
+,masterPage,내용,마스터 페이지 루트: 안의 글자를 모아 부록에 보존(공백뿐이면 생략),masterpage*.xml 루트(S2에서 C4 거짓 실패로 재분류)
+http://www.hancom.co.kr/hwpml/2011/paragraph,autoNumFormat,서식무시,번호 서식 정보(출력하지 않음),S0 미분류 해소
+http://www.hancom.co.kr/hwpml/2011/paragraph,footer,내용,머리말/꼬리말(꼬리): 부록에 보존,계획 5.2(코퍼스에는 없음)
+http://www.hancom.co.kr/hwpml/2011/paragraph,endNote,내용,미주 노드(각주와 같은 방식),계획 5.1(코퍼스에는 없음)
+
