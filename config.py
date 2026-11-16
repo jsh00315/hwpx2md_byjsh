@@ -37,7 +37,7 @@ RHWP = _first_existing(
 )
 
 # hwp2md.exe : 점검(C9, C10, C14)에서 '두 번째 변환기'로 대조할 때만 쓴다. 없으면 그 점검만 건너뛴다.
-#   설치: cargo install hwp2md
+#   설치: pip install hwp2markdown (ilyos, MIT, 권장) 또는 cargo install hwp2md (hephaex)
 HWP2MD = _first_existing(
     os.environ.get("HWP2MD_PATH", ""),
     shutil.which("hwp2md"),

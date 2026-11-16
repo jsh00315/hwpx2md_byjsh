@@ -41,7 +41,7 @@ python -X utf8 -I run_all.py
 | 프로그램 | 언제 필요한가 | 받는 방법 |
 |---|---|---|
 | rhwp | `.hwp` 변환 | <https://github.com/edwardkim/rhwp/releases/latest> 에서 Windows용 `rhwp.exe`를 받아 `bin/rhwp.exe`에 둡니다(또는 `config_local.py`의 `RHWP`에 경로). |
-| hwp2md | 점검 C9, C10, C14의 두 번째 변환기 대조 | Rust가 있으면 `cargo install hwp2md`. 없어도 변환은 됩니다. |
+| hwp2md (둘 중 하나) | 점검 C9, C10, C14의 두 번째 변환기 대조. 없어도 변환은 됩니다. | **ilyos-numon/hwp2md** (MIT, 권장): `pip install hwp2markdown` 후 나오는 `hwp2md` 실행 파일 경로를 `HWP2MD`에 적습니다. 또는 hephaex/hwp2md (GPL-3.0): `cargo install hwp2md`. 프로그램이 어느 쪽인지는 자동으로 알아냅니다. |
 
 받은 파일은 먼저 안전한지 직접 확인하세요. 이 저장소는 외부 프로그램을 포함하지 않습니다.
 

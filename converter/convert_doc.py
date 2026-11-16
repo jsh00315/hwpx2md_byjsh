@@ -58,13 +58,41 @@ def export_images(doc, image_dir):
     return warnings
 
 
+_KIND = {}
+
+
+def _hwp2md_kind():
+    """HWP2MD 가 어느 프로그램인지 --help 로 알아낸다: 'to-md' 가 보이면 hephaex(cargo), 아니면 ilyos(pip)."""
+    if HWP2MD not in _KIND:
+        try:
+            h = subprocess.run([HWP2MD, "--help"], capture_output=True, text=True,
+                               encoding="utf-8", errors="replace", timeout=60)
+            _KIND[HWP2MD] = "hephaex" if "to-md" in (h.stdout + h.stderr) else "ilyos"
+        except Exception:  # noqa
+            _KIND[HWP2MD] = "hephaex"
+    return _KIND[HWP2MD]
+
+
 def run_hwp2md(path, out_md):
     if not HWP2MD:     # hwp2md.exe 가 없으면 대조 점검(C9, C10, C14)만 건너뛴다
         return None, "hwp2md.exe 없음(config.py 의 HWP2MD): 대조 점검 건너뜀"
     os.makedirs(os.path.dirname(out_md), exist_ok=True)
     try:
-        r = subprocess.run([HWP2MD, "to-md", path, "-o", out_md], capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", timeout=900)
+        if _hwp2md_kind() == "ilyos":
+            # ilyos-numon/hwp2md (pip hwp2markdown): `hwp2md 입력 -o 출력폴더` -> 출력폴더/입력이름.md
+            out_dir = os.path.dirname(out_md)
+            cmd = [HWP2MD, path, "-o", out_dir]
+            made = os.path.join(out_dir, os.path.splitext(os.path.basename(path))[0] + ".md")
+        else:
+            # hephaex/hwp2md (cargo): `hwp2md to-md 입력 -o 출력파일`
+            cmd = [HWP2MD, "to-md", path, "-o", out_md]
+            made = out_md
+        # 파이프로 받으면 파이썬 프로그램이 cp949 로 '✓' 를 못 써서 죽으므로 utf-8 을 강제한다
+        env = dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUTF8="1")
+        r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace",
+                           timeout=900, env=env)
+        if made != out_md and os.path.exists(made):
+            os.replace(made, out_md)
     except Exception as e:  # noqa
         return None, "실행예외 " + repr(e)
     if r.returncode != 0 or not os.path.exists(out_md):
